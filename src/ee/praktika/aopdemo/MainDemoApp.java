@@ -24,6 +24,13 @@ public class MainDemoApp {
         theAccountDAO.addAccount( myAccount, true );
         theAccountDAO.doWork();
 
+        //calling the .get and .set methods with referencePointcut()
+        theAccountDAO.setName( "magic" );
+        theAccountDAO.setServiceCode( "the gathering" );
+
+        String name = theAccountDAO.getName();
+        String code = theAccountDAO.getServiceCode();
+
         //Call the Membership "Business-method"
         theMembershipDAO.addSimpleMember();
         theMembershipDAO.goToSleep();
