@@ -15,15 +15,29 @@ public class MyDemoLoggingAspect {
 
     @Pointcut( "execution(* ee.praktika.aopdemo.dao.*.*(..))" )
     private void referencePointcut(){
-
     }
 
-    @Before( "referencePointcut()" )
+    //creating pointcut for getter methods
+    @Pointcut( "execution(* ee.praktika.aopdemo.dao.*.get*(..))" )
+    private void referenceGettersPointcut(){
+    }
+
+    //creating pointcut for setter methods
+    @Pointcut( "execution(* ee.praktika.aopdemo.dao.*.set*(..))" )
+    private void referenceSettersPointcut(){
+    }
+
+    //creating pointcut: include package, but exclude all .get and.set methods.
+    @Pointcut( "referencePointcut() && !(referenceGettersPointcut() || referenceSettersPointcut())" )
+    private void referencePointcutIgnoreGetSet(){
+    }
+
+    @Before( "referencePointcutIgnoreGetSet()" )
     public void beforeAddAccountAdvice(){
         System.out.println( "\n======>>> Executing @Before advice on addAccount() in the DAO package" );
     }
 
-    @Before( "referencePointcut()" )
+    @Before( "referencePointcutIgnoreGetSet()" )
     public void performApiAnalytics(){
         System.out.println( "\n======>>> Doing some cool analytics down here." );
     }
